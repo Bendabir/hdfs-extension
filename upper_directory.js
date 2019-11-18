@@ -19,19 +19,26 @@ const isOnRightPage = document.location.href.includes("explorer.html")
                       && document.querySelector(".navbar-brand").innerText === "Hadoop";
 
 if(isOnRightPage){
-    // Listening to changes on the panel to dynamically inject a new
-    // row with the upper directory
-    const observer = new MutationObserver((mutations, observer) => {
-        if(mutations){
-            for(let m of mutations){
-                if(m.type === "childList"){
-                    injectUpperDirectoryRow();
-                    break;
+    // Try to inject the row directly (in case the array is already loaded)
+    try {
+        injectUpperDirectoryRow();
+    } catch(e) {
+        // Do nothing, we'll rely on the mutation observer
+    } finally {
+        // Listening to changes on the panel to dynamically inject a new
+        // row with the upper directory
+        const observer = new MutationObserver((mutations, observer) => {
+            if(mutations){
+                for(let m of mutations){
+                    if(m.type === "childList"){
+                        injectUpperDirectoryRow();
+                        break;
+                    }
                 }
             }
-        }
-    });
+        });
 
-    // Actually listening to mutations
-    observer.observe(document.querySelector("#panel"), {childList: true});
+        // Actually listening to mutations
+        observer.observe(document.querySelector("#panel"), {childList: true});
+    }
 }
