@@ -14,13 +14,30 @@ function injectUpperDirectoryRow(){
     newRow.innerHTML = `<tr><td>drwxr-xr-x</td><td>??</td><td>??</td><td>0 B</td><td>??</td><td>0</td><td>0 B</td><td><a style="cursor:pointer" class="explorer-browse-links" href="#${getUpperDirectory(currentPath)}">..</a></td></tr>`
 }
 
+function injectReloadButton(){
+    let reloadButton = document.createElement("button")
+    reloadButton.setAttribute("type", "button")
+    reloadButton.className = "btn btn-default"
+    reloadButton.innerText = "Reload"
+    reloadButton.style = "float: right;"
+
+    // On click, reload the page
+    reloadButton.addEventListener("click", () => {
+        document.location.reload();
+    });
+
+    document.querySelector(".page-header h1").appendChild(reloadButton)
+}
+
 const isOnRightPage = document.location.href.includes("explorer.html")
                       && document.querySelector(".navbar-brand")
                       && document.querySelector(".navbar-brand").innerText === "Hadoop";
 
 if(isOnRightPage){
-    // Try to inject the row directly (in case the array is already loaded)
     try {
+        injectReloadButton();
+        // Try to inject the row directly (in case the array is already
+        // loaded)
         injectUpperDirectoryRow();
     } catch(e) {
         // Do nothing, we'll rely on the mutation observer
