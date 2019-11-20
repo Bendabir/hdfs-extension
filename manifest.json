@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "HDFS UI Upper Directory",
     "description": "Add a link to upper dirctory to ease navigation on HDFS UI.",
-    "version": "0.1.2",
+    "version": "0.2.0",
     "icons": {
         "48": "resources/icons/up_icon.png"
     },
