@@ -7,12 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2019-12-10
+
+### Added
+
+- Breadcrumbs for navigation.
+
 ## [0.2.0] - 2019-11-20
 
 ### Added
 
-- Changelog
-- Reload button
+- Changelog.
+- Reload button.
 
 ## [0.1.2] - 2019-11-18
 
@@ -33,7 +39,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Link to upper directory in directory exploration in HDFS UI.
 
-[Unreleased] https://github.com/bendabir/hdfs-extension/compare/0.2.0...develop <br />
+[Unreleased] https://github.com/bendabir/hdfs-extension/compare/0.3.0...develop <br />
+[0.3.0] https://github.com/bendabir/hdfs-extension/compare/0.2.0...0.3.0 <br />
 [0.2.0] https://github.com/bendabir/hdfs-extension/compare/0.1.2...0.2.0 <br />
 [0.1.2] https://github.com/bendabir/hdfs-extension/compare/0.1.1...0.1.2 <br />
 [0.1.1] https://github.com/bendabir/hdfs-extension/compare/0.1.0...0.1.1 <br />
