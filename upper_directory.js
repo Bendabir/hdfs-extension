@@ -7,11 +7,90 @@ function getUpperDirectory(path, sep = "/"){
     }
 }
 
+function generateHierarchy(path, sep = "/"){
+    var dirs = [];
+    var paths = [];
+
+    if (path === sep) {
+        dirs = [""];
+        paths = [[sep, ""]];
+    } else {
+        dirs = path.split(sep);
+        // A bit dirty, there is probably a cleaner way to achieve this
+        paths = dirs.reduce((path, dir, index) => {
+            if (path.length <= index) {
+                path.push([]);
+            }
+
+            if (index > 0) {
+                path[index] = path[index - 1].concat(path[index])
+            }
+
+            path[index].push(dir)
+
+            return path
+        }, []);
+    }
+
+    return paths.map((dirs) => {
+        var dir = dirs[dirs.length - 1];
+
+        if (dir.length === 0) {
+            dir = sep;
+            dirs[dirs.length - 1] = sep;
+        }
+
+        return [dir, dirs.join(sep)];
+    });
+}
+
+function injectBreadcrumbs(){
+    const currentPath = document.querySelector("#directory").value;
+    const paths = generateHierarchy(currentPath);
+    const row = document.querySelector("#directory").parentElement
+                                                    .parentElement
+                                                    .parentElement;
+
+    let container = document.createElement("ul");
+    container.className = "breadcrumb";
+    row.insertBefore(container, row.firstElementChild);
+
+    paths.forEach((entry, index) => {
+        let [dir, path] = entry;
+
+        if (index === 0){
+            dir = "root";
+        }
+
+        const element = document.createElement("li");
+
+        if (index === (paths.length - 1)) {
+            element.className = "active";
+            element.innerHTML = dir;
+        } else {
+            element.innerHTML = `<a href="#${path}">${dir}</a>`;
+        }
+
+        container.appendChild(element);
+    });
+}
+
+function clearBreadcrumbs(){
+    const breadcrumbs = document.querySelector("ul.breadcrumb");
+
+    if (breadcrumbs) {
+        breadcrumbs.remove();
+    }
+}
+
 function injectUpperDirectoryRow(){
     let table = document.querySelector("#panel table.table"),
         currentPath = document.querySelector("#directory").value;
     let newRow = table.insertRow(1);
-    newRow.innerHTML = `<tr><td>drwxr-xr-x</td><td>??</td><td>??</td><td>0 B</td><td>??</td><td>0</td><td>0 B</td><td><a style="cursor:pointer" class="explorer-browse-links" href="#${getUpperDirectory(currentPath)}">..</a></td></tr>`
+    newRow.innerHTML = `<tr><td>drwxr-xr-x</td><td>??</td><td>??</td><td>0 B</td><td>??</td><td>0</td><td>0 B</td><td><a style="cursor:pointer" class="explorer-browse-links" href="#${getUpperDirectory(currentPath)}">..</a></td></tr>`;
+
+    clearBreadcrumbs();
+    injectBreadcrumbs();
 }
 
 function injectReloadButton(){
